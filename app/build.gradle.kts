@@ -20,12 +20,12 @@ android {
 
         externalNativeBuild {
             cmake {
-                cppFlags("-O3 -march=armv8-a+crypto -std=c++17")
-                arguments("-DANDROID_STL=c++_shared")
+                cppFlags += listOf("-O3", "-march=armv8-a+crypto", "-std=c++17")
+                arguments += listOf("-DANDROID_STL=c++_shared")
             }
         }
         ndk {
-            abiFilters("arm64-v8a", "armeabi-v7a")
+            abiFilters += setOf("arm64-v8a", "armeabi-v7a")
         }
     }
 
