@@ -1,15 +1,21 @@
 # Имя рабочего процесса (будет видно на вкладке Actions)
 name: Build Debug APK
 
-# Условия запуска: разрешаем запуск вручную с кнопки
+# Условия запуска: при пуше в main и вручную с кнопки
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 # Сама работа (job)
 jobs:
   build:
-    # Запускаем на последней версии Ubuntu (там есть всё необходимое) [citation:2]
+    # Запускаем на последней версии Ubuntu (там есть всё необходимое)
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
 
     steps:
       # 1. Копируем код проекта из репозитория на виртуальный сервер
@@ -20,18 +26,18 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: '17' # Версия Java, рекомендуемая для современных проектов [citation:5]
+          java-version: '17'
           distribution: 'temurin'
 
       # 3. Даем права на выполнение gradlew (важно для Linux-систем)
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      # 4. САМА СБОРКА! Запускаем команду для создания debug APK [citation:1][citation:3][citation:5]
+      # 4. САМА СБОРКА! Запускаем команду для создания debug APK
       - name: Build APK
         run: ./gradlew assembleDebug
 
-      # 5. Загружаем готовый APK-файл в интерфейс GitHub [citation:5]
+      # 5. Загружаем готовый APK-файл в интерфейс GitHub (вкладка Actions)
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -39,3 +45,19 @@ jobs:
           name: app-debug-apk
           # Путь к папке, где Gradle обычно собирает APK
           path: app/build/outputs/apk/debug/
+
+      # 6. Создаём/обновляем релиз и прикрепляем APK — это самый простой способ скачать APK
+      - name: Create or update GitHub Release with APK
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest-debug
+          name: "Debug APK (Latest Build / последняя сборка)"
+          body: |
+            Автоматически собранный debug APK.
+            Скачайте файл `app-debug.apk` ниже.
+
+            ---
+            Automatically built debug APK.
+            Download `app-debug.apk` below.
+          prerelease: true
+          files: app/build/outputs/apk/debug/app-debug.apk
