@@ -9,7 +9,7 @@ data class Fee(
     val coin: String,
     val amount: Double,
     val userWalletAddress: String,
-    val collectorAddress: String,
+    val collectorAddress: String,   // адрес, на который должна уйти комиссия
     val blockHash: String,
     val timestamp: Long
 )
