@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Lottttto</string>
+    <string name="get_started">Get Started</string>
+    <string name="welcome">Welcome</string>
+    <string name="description">Your pre-wallet solution</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="dont_have_account">Don\'t have an account? Sign up</string>
+    <string name="already_have_account">Already have an account? Sign in</string>
+    <string name="agree_terms">I agree to the Terms and Conditions</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in">Sign In</string>
+    <string name="invalid_email">Invalid email address</string>
+    <string name="password_too_short">Password must be at least 8 characters</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="registration_success">Registration successful! Please log in.</string>
+    <string name="agree">Agree</string>
+    <string name="agreement_text">User agreement text goes here. Please read carefully before proceeding.</string>
+    <string name="facebook_app_id">123456789012345</string>
+    <string name="fb_login_protocol_scheme">fb123456789012345</string>
+    <string name="facebook_client_token">3399464ch1515ace3c9782ad1fbeef101</string>
+</resources>
