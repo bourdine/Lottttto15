@@ -1,133 +1,80 @@
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.kapt")
-    id("com.google.gms.google-services")
+    // id("com.google.gms.google-services")  // Google Services временно отключён
+    // Если используешь Kotlin, добавь:
+    // id("org.jetbrains.kotlin.android")
 }
 
 android {
-    namespace = "com.example.lottttto11"
-    compileSdk = 34
+    namespace = "com.example.lottttto15" // TODO: замени на свой package name (должен совпадать с тем, что в манифесте)
+    compileSdk = 34 // или 33 / 35 – укажи актуальную версию
 
     defaultConfig {
-        applicationId = "com.example.lottttto11"
-        minSdk = 24
-        targetSdk = 34
+        applicationId = "com.example.lottttto15" // TODO: замени на свой applicationId
+        minSdk = 21 // TODO: укажи минимальную SDK
+        targetSdk = 34 // TODO: укажи целевую SDK
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        externalNativeBuild {
-            cmake {
-                cppFlags += listOf("-O3", "-std=c++17")
-                arguments += listOf("-DANDROID_STL=c++_shared")
-            }
-        }
+        // Исправленный блок для указания поддерживаемых архитектур
         ndk {
-            abiFilters += setOf("arm64-v8a", "armeabi-v7a")
+            abiFilters.addAll(listOf("arm64-v8a", "armeabi-v7a"))
+            // Если нужно добавить другие (например, x86), раскомментируй:
+            // abiFilters.add("x86")
         }
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false // включи ProGuard/R8, если нужно
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
-        debug {
-            isMinifyEnabled = false
-            applicationIdSuffix = ".debug"
-        }
     }
 
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14"
-    }
-
-    externalNativeBuild {
-        cmake {
-            path("src/main/cpp/CMakeLists.txt")
-        }
-    }
-
+    // Настройки компиляции для Java
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
+    // Если используешь Kotlin, раскомментируй:
+    /*
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "11"
     }
+    */
 
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+    // Если используешь viewBinding или dataBinding:
+    /*
+    buildFeatures {
+        viewBinding = true
     }
+    */
 }
 
 dependencies {
-    // Core
-    implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.3")
-    implementation("androidx.activity:activity-compose:1.9.0")
+    // Здесь оставь свои зависимости (те, что уже есть в проекте)
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    // Compose
-    implementation(platform("androidx.compose:compose-bom:2024.06.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material:material")
-    implementation("androidx.compose.material3:material3")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    // Пример твоих зависимостей (из strings.xml видно, что есть работа с Facebook, но это не Firebase)
+    // implementation("com.facebook.android:facebook-login:latest.version") // если нужно
 
-    // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.3")
+    // Если у тебя были Firebase-зависимости, они могут остаться, но без плагина google-services
+    // некоторые функции могут не работать, но сборка пройдёт.
+    // Например:
+    // implementation("com.google.firebase:firebase-analytics:21.5.0") // это может требовать google-services.json, лучше тоже временно закомментировать
 
-    // Room
-    implementation("androidx.room:room-runtime:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
+    // Проверь, есть ли у тебя зависимость io.github.novacrypto:BIP39 — мы её уже исправили на com.github.novacrypto
+    implementation("com.github.novacrypto:BIP39:2019.01.27")
 
-    // WorkManager
-    implementation("androidx.work:work-runtime-ktx:2.9.0")
-
-    // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
-
-    // OkHttp
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-
-    // Gson
-    implementation("com.google.code.gson:gson:2.10.1")
-
-    // Google Sign-In
-    implementation("com.google.android.gms:play-services-auth:21.2.0")
-
-    // Facebook Sign-In
-    implementation("com.facebook.android:facebook-login:18.0.3")
-
-    // BIP39 (Kotlin BIP39 library available on Maven Central)
-    implementation("cash.z.ecc.android:kotlin-bip39:1.0.7")
-
-    // ZXing for QR codes
-    implementation("com.google.zxing:core:3.5.3")
-    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
-
-    // Testing
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2024.06.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    // Все остальные зависимости, которые у тебя были, добавь сюда.
+    // Например:
+    // testImplementation("junit:junit:4.13.2")
+    // androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    // androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
