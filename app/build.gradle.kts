@@ -117,8 +117,8 @@ dependencies {
     // Facebook Sign-In
     implementation("com.facebook.android:facebook-login:18.0.3")
 
-    // BIP39
-    implementation("io.github.novacrypto:BIP39:2019.01.27")
+    // BIP39 (Kotlin BIP39 library available on Maven Central)
+    implementation("cash.z.ecc.android:kotlin-bip39:1.0.7")
 
     // ZXing for QR codes
     implementation("com.google.zxing:core:3.5.3")
