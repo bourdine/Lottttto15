@@ -1,41 +1,36 @@
-# Имя рабочего процесса (будет видно на вкладке Actions)
-name: Build Debug APK
+name: Android APK Build
 
-# Условия запуска: разрешаем запуск вручную с кнопки
+# Позволяет запускать сборку вручную с помощью кнопки
 on:
   workflow_dispatch:
 
-# Сама работа (job)
 jobs:
   build:
-    # Запускаем на последней версии Ubuntu (там есть всё необходимое) [citation:2]
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Копируем код проекта из репозитория на виртуальный сервер
+      # Скачиваем твой код в виртуальный компьютер GitHub
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Устанавливаем Java (нужна для сборки Android)
+      # Устанавливаем Java, чтобы работала сборка Android
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
-          java-version: '17' # Версия Java, рекомендуемая для современных проектов [citation:5]
+          java-version: '17'
           distribution: 'temurin'
 
-      # 3. Даем права на выполнение gradlew (важно для Linux-систем)
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
+      # Даем разрешение на запуск файла gradlew (важно для Linux/Mac)
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
-      # 4. САМА СБОРКА! Запускаем команду для создания debug APK [citation:1][citation:3][citation:5]
-      - name: Build APK
+      # А вот и та самая команда, которую ты хотел выполнить!
+      - name: Build with Gradle
         run: ./gradlew assembleDebug
 
-      # 5. Загружаем готовый APK-файл в интерфейс GitHub [citation:5]
-      - name: Upload APK Artifact
+      # Сохраняем готовый APK-файл, чтобы ты мог его скачать
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          # Имя папки, в которую сохранится результат на странице Actions
-          name: app-debug-apk
-          # Путь к папке, где Gradle обычно собирает APK
-          path: app/build/outputs/apk/debug/
+          name: app-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
