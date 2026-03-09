@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.22.1)
+project("lottttto11")
+add_library(lottttto11 SHARED native-lib.cpp)
+find_library(log-lib log)
+target_link_libraries(lottttto11 ${log-lib})
