@@ -1,6 +1,6 @@
 plugins {
     id("com.android.application")
-    // id("com.google.gms.google-services")  // Google Services временно отключён
+    // id("com.google.gms.google-services")  // Google Services отключён
     // Если используешь Kotlin, добавь:
     // id("org.jetbrains.kotlin.android")
 }
@@ -56,24 +56,20 @@ android {
 }
 
 dependencies {
-    // Здесь оставь свои зависимости (те, что уже есть в проекте)
+    // Стандартные библиотеки AndroidX
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    // Пример твоих зависимостей (из strings.xml видно, что есть работа с Facebook, но это не Firebase)
-    // implementation("com.facebook.android:facebook-login:latest.version") // если нужно
+    // 👇 ВНИМАНИЕ: зависимость BIP39 временно отключена, так как её не удаётся найти.
+    // Если в коде есть импорты из этой библиотеки, их тоже нужно закомментировать.
+    // implementation("com.github.novacrypto:BIP39:2019.01.27")
 
-    // Если у тебя были Firebase-зависимости, они могут остаться, но без плагина google-services
-    // некоторые функции могут не работать, но сборка пройдёт.
+    // Если у тебя были Firebase-зависимости, они тоже могут мешать, но сборка без google-services.json всё равно пройдёт.
     // Например:
-    // implementation("com.google.firebase:firebase-analytics:21.5.0") // это может требовать google-services.json, лучше тоже временно закомментировать
+    // implementation("com.google.firebase:firebase-analytics:21.5.0") // можно закомментировать при необходимости
 
-    // Проверь, есть ли у тебя зависимость io.github.novacrypto:BIP39 — мы её уже исправили на com.github.novacrypto
-    implementation("com.github.novacrypto:BIP39:2019.01.27")
-
-    // Все остальные зависимости, которые у тебя были, добавь сюда.
-    // Например:
+    // Здесь добавь остальные свои зависимости (если они есть)
     // testImplementation("junit:junit:4.13.2")
     // androidTestImplementation("androidx.test.ext:junit:1.1.5")
     // androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
